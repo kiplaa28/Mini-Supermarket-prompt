@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#071426">
+<title>Supermarket | M-Pesa Cashier</title>
+<style>
+:root{--bg:#071426;--panel:#10243c;--panel2:#142d49;--line:#25415e;--text:#edf5ff;--muted:#9cb1c9;--cyan:#54c8e8;--green:#36c98f;--red:#ff6b78;--amber:#ffc66d}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 80% -10%,#17466a 0,transparent 35%),var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+header{display:flex;align-items:center;justify-content:space-between;padding:18px clamp(16px,4vw,48px);border-bottom:1px solid #203b58;background:#071426dd;position:sticky;top:0;z-index:5;backdrop-filter:blur(12px)}
+.brand{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.08em}.logo{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,#54c8e8,#1675a5);display:grid;place-items:center;color:#061827;font-weight:900}.sub{color:var(--muted);font-size:12px;letter-spacing:0}
+.status{border:1px solid var(--line);border-radius:999px;padding:6px 11px;color:var(--muted);font-size:12px}.status:before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);margin-right:7px}
+main{max-width:1200px;margin:auto;padding:30px clamp(14px,4vw,42px) 60px}.welcome{display:flex;justify-content:space-between;gap:16px;align-items:end;margin-bottom:22px}.eyebrow{color:var(--cyan);font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}h1{font-size:clamp(26px,4vw,38px);line-height:1.15;margin:5px 0}.muted{color:var(--muted)}.grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(280px,.9fr);gap:18px}.panel{background:linear-gradient(160deg,#122a45,#0e2036);border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:0 18px 50px #0002}.panel h2{font-size:17px;margin:0 0 5px}.panel p{margin:0 0 18px;color:var(--muted);font-size:13px}.field{margin:15px 0}.field label{display:block;font-size:12px;color:#c0d1e3;margin-bottom:7px;font-weight:650}.field input{width:100%;background:#081a2d;border:1px solid #31506e;border-radius:12px;padding:14px;color:white;font-size:16px;outline:none}.field input:focus{border-color:var(--cyan);box-shadow:0 0 0 3px #54c8e822}.amount-wrap{position:relative}.amount-wrap span{position:absolute;left:14px;top:13px;color:var(--muted)}.amount-wrap input{padding-left:55px}.btn{border:0;border-radius:12px;background:linear-gradient(135deg,#58d0e8,#2a9fc7);color:#052034;font-weight:850;padding:14px 18px;width:100%;font-size:15px;cursor:pointer}.btn:disabled{opacity:.55;cursor:wait}.btn.secondary{background:#1c3855;color:var(--text);border:1px solid #355574}.hint{font-size:12px;color:var(--muted);margin-top:10px}.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.stat{background:#091b2e;border:1px solid #223d59;border-radius:15px;padding:16px}.stat small{color:var(--muted);display:block}.stat strong{font-size:24px;display:block;margin-top:5px}.stat strong.money{font-size:22px}.payment-state{display:none;margin-top:16px;border:1px solid var(--line);border-radius:14px;padding:14px;background:#091b2e}.payment-state.show{display:block}.state-title{font-weight:800}.state-desc{font-size:13px;color:var(--muted);margin-top:4px}.demo-actions{display:none;gap:8px;margin-top:12px}.demo-actions.show{display:flex}.demo-actions button{flex:1}.table-panel{margin-top:18px}.table-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:600px}th,td{text-align:left;padding:12px 10px;border-bottom:1px solid #203b57;font-size:13px}th{color:var(--muted);font-weight:650}td{color:#e4eef9}.pill{display:inline-block;padding:4px 9px;border-radius:999px;font-size:11px;text-transform:capitalize;background:#253b55;color:#c6d7e8}.pill.paid{background:#123e36;color:#78e2b9}.pill.failed,.pill.cancelled,.pill.timeout{background:#492a36;color:#ffadb5}.pill.pending{background:#4b3a21;color:#ffd28b}.receipt{color:#80dfbc;font-weight:700}.empty{text-align:center;padding:28px;color:var(--muted)}.toast{position:fixed;right:16px;bottom:16px;background:#173650;border:1px solid #3b6888;padding:13px 16px;border-radius:12px;display:none;max-width:min(90vw,400px);z-index:10}.toast.show{display:block}.foot{margin-top:24px;text-align:center;color:#7189a4;font-size:11px}
+@media(max-width:760px){.grid{grid-template-columns:1fr}.welcome{align-items:start;flex-direction:column}.panel{padding:18px}header{padding:13px 16px}.status{font-size:11px}.stats{gap:9px}.stat{padding:13px}.stat strong{font-size:21px}}
+</style>
+</head>
+<body>
+<header><div class="brand"><div class="logo">M</div><div>SUPERMARKET <div class="sub">PAYMENTS & CASHIER</div></div></div><div class="status" id="modeBadge">Checking system…</div></header>
+<main>
+  <section class="welcome"><div><div class="eyebrow">Cashier workspace</div><h1>Payment dashboard</h1><div class="muted">Collect customer payments securely with M-Pesa STK Push.</div></div><div class="muted" id="todayLabel"></div></section>
+  <section class="grid">
+    <div class="panel">
+      <h2>New customer payment</h2><p>Enter the customer's number and the amount due.</p>
+      <form id="paymentForm">
+        <div class="field"><label for="phone">CUSTOMER PHONE NUMBER</label><input id="phone" inputmode="tel" autocomplete="tel" placeholder="0712 345 678" required></div>
+        <div class="field"><label for="amount">AMOUNT TO PAY</label><div class="amount-wrap"><span>KES</span><input id="amount" type="number" min="1" max="250000" step="1" placeholder="0" required></div></div>
+        <button class="btn" id="promptBtn" type="submit">Prompt customer</button>
+        <div class="hint">The customer enters their M-Pesa PIN on their own phone. Never ask them to share it.</div>
+      </form>
+      <div class="payment-state" id="paymentState" aria-live="polite"><div class="state-title" id="stateTitle">Waiting for customer</div><div class="state-desc" id="stateDesc"></div><div class="demo-actions" id="demoActions"><button class="btn" type="button" id="approveBtn">Approve demo</button><button class="btn secondary" type="button" id="declineBtn">Decline</button></div></div>
+    </div>
+    <div class="panel">
+      <h2>Today's overview</h2><p>Summary of recorded payments for today.</p>
+      <div class="stats">
+        <div class="stat"><small>Collected</small><strong class="money" id="collected">KES 0</strong></div>
+        <div class="stat"><small>Successful payments</small><strong id="paidCount">0</strong></div>
+        <div class="stat"><small>All transactions</small><strong id="totalCount">0</strong></div>
+        <div class="stat"><small>System mode</small><strong id="modeText" style="font-size:17px">Demo</strong></div>
+      </div>
+      <div class="hint" style="margin-top:18px">Demo mode simulates the customer prompt for testing. Real payments require approved Safaricom Daraja credentials and a public HTTPS callback URL.</div>
+    </div>
+  </section>
+  <section class="panel table-panel">
+    <div class="table-head"><div><h2>Today's transactions</h2><div class="muted" style="font-size:12px">Latest payment activity</div></div><button class="btn secondary" style="width:auto;padding:9px 13px;font-size:12px" id="refreshBtn">Refresh</button></div>
+    <div class="table-wrap"><table><thead><tr><th>TIME</th><th>REFERENCE</th><th>PHONE</th><th>AMOUNT</th><th>STATUS</th><th>M-PESA RECEIPT</th></tr></thead><tbody id="transactions"><tr><td colspan="6" class="empty">Loading transactions…</td></tr></tbody></table></div>
+  </section>
+  <div class="foot">Secure cashier interface · Payment confirmation is verified by the server · Do not store customer PINs</div>
+</main>
+<div class="toast" id="toast"></div>
+<script>
+let currentOrder=null, mode="mock", poller=null;
+const $=id=>document.getElementById(id);
+const kes=n=>"KES "+Number(n||0).toLocaleString("en-KE");
+function toast(msg){$("toast").textContent=msg;$("toast").classList.add("show");setTimeout(()=>$("toast").classList.remove("show"),3500)}
+function setState(title,desc,showDemo=false){$("paymentState").classList.add("show");$("stateTitle").textContent=title;$("stateDesc").textContent=desc;$("demoActions").classList.toggle("show",showDemo)}
+async function api(url,options={}){const r=await fetch(url,{headers:{"Content-Type":"application/json"},...options});const d=await r.json();if(!r.ok)throw new Error(d.error||"Request failed");return d}
+async function loadHealth(){try{const h=await api("/api/health");mode=h.mode;$("modeBadge").textContent=mode==="mock"?"DEMO MODE":"LIVE · "+h.shortcode;$("modeText").textContent=mode==="mock"?"Demo":"Live";if(!h.ready)toast("Setup needed: "+h.errors.join(", "));}catch(e){$("modeBadge").textContent="Offline";}}
+async function refresh(){try{const d=await api("/api/transactions/today");$("collected").textContent=kes(d.totals.collected);$("paidCount").textContent=d.totals.paidCount||0;$("totalCount").textContent=d.totals.count||0;const body=$("transactions");if(!d.transactions.length){body.innerHTML='<tr><td colspan="6" class="empty">No transactions yet today.</td></tr>';return}body.innerHTML=d.transactions.map(t=>`<tr><td>${new Date(t.createdAt).toLocaleTimeString()}</td><td>${t.id}</td><td>${t.phone}</td><td>${kes(t.amount)}</td><td><span class="pill ${t.status}">${t.status}</span></td><td class="receipt">${t.receipt||"—"}</td></tr>`).join("");}catch(e){toast(e.message)}}
+async function pollStatus(){if(!currentOrder)return;try{const d=await api("/api/status/"+encodeURIComponent(currentOrder.orderId));if(d.status==="paid"){clearInterval(poller);setState("Payment successful ✓",`Receipt: ${d.receipt} · ${kes(d.amount)} received.`);toast("Payment confirmed.");refresh()}else if(["failed","cancelled","timeout"].includes(d.status)){clearInterval(poller);setState("Payment "+d.status, d.resultDescription||"The payment was not completed. You can try again.");refresh()}else{setState("Waiting for customer…","Ask the customer to check their phone and enter their PIN there.",mode==="mock")}}catch(e){clearInterval(poller);setState("Unable to check status",e.message)}}
+$("paymentForm").addEventListener("submit",async e=>{e.preventDefault();$("promptBtn").disabled=true;$("promptBtn").textContent="Sending prompt…";try{const d=await api("/api/stkpush",{method:"POST",body:JSON.stringify({phone:$("phone").value,amount:Number($("amount").value)})});currentOrder={orderId:d.orderId,checkoutRequestId:d.checkoutRequestId,amount:Number($("amount").value)};setState("Prompt sent · waiting…",d.message,mode==="mock");if(poller)clearInterval(poller);poller=setInterval(pollStatus,2500);pollStatus();toast("Payment request created.");}catch(err){toast(err.message)}finally{$("promptBtn").disabled=false;$("promptBtn").textContent="Prompt customer"}});
+$("approveBtn").addEventListener("click",async()=>{if(!currentOrder)return;try{await api(`/api/mock/${encodeURIComponent(currentOrder.checkoutRequestId)}/approve`,{method:"POST",body:JSON.stringify({amount:currentOrder.amount})});pollStatus()}catch(e){toast(e.message)}});
+$("declineBtn").addEventListener("click",async()=>{if(!currentOrder)return;try{await api(`/api/mock/${encodeURIComponent(currentOrder.checkoutRequestId)}/decline`,{method:"POST",body:"{}"});pollStatus()}catch(e){toast(e.message)}});
+$("refreshBtn").addEventListener("click",refresh);
+$("todayLabel").textContent=new Date().toLocaleDateString("en-KE",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
+loadHealth();refresh();setInterval(refresh,15000);
+</script>
+</body></html>
